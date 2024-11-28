@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../pics/logo.png" sizes="16x16">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="96x96">
+<link rel="apple-touch-icon" href="../pics/logo.png">
+    <title>Repair Services - SkillSwap</title>
+    <style>
+        :root {
+            --bg-gradient-light: linear-gradient(to top, violet, white);
+            --text-color-light: rgb(75, 75, 75);
+            --glass-bg-light: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            background: var(--bg-gradient-light);
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .service-card {
+            background: var(--glass-bg-light);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-media img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .order-btn {
+            background: rgba(238, 130, 238, 0.6);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .order-btn:hover {
+            background: rgba(238, 130, 238, 0.8);
+        }
+        /* Navigation Styles */
+.navbar {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    width: 50px;
+    height: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color-light);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: violet;
+}
+
+/* Hover effects for buttons */
+.order-btn {
+    transition: all 0.3s ease;
+}
+
+.order-btn:hover {
+    background: rgba(238, 130, 238, 0.8);
+    transform: translateY(-2px);
+}
+
+/* Service card hover effect */
+.service-card {
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+    /* Add these new styles */
+    .buddy-profile {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .profile-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .profile-info h3 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .service-title {
+        margin: 5px 0;
+        color: #666;
+    }
+
+    .service-details {
+        text-align: left;
+    }
+
+    .description {
+        margin: 10px 0;
+        line-height: 1.5;
+    }
+
+    .service-categories {
+        margin: 10px 0;
+    }
+
+    .service-category {
+        background: rgba(238, 130, 238, 0.1);
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 0.9rem;
+    }
+
+    .service-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    .price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #4CAF50;
+    }
+
+    .contact-btn {
+        background: linear-gradient(135deg, #fce7ff, #e293f9);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .contact-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-services {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+        grid-column: 1 / -1;
+        padding: 20px;
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: red;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 12px;
+        display: none;
+    }
+
+    .comments-modal {
+        max-height: 80vh;
+        overflow-y: auto;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .comment-form {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo-container">
+                <img src="/pics/logo.png" alt="SkillSwap Logo" class="logo">
+                <h1>SKILLSWAP</h1>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../service.html">Services</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <div class="user-profile" style="margin-left: 20px; position: relative;">
+                    <img src="../pics/default-avatar.png" 
+                         alt="Profile" 
+                         style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
+                         onmouseover="showDropdown()" 
+                         onmouseout="hideDropdown()">
+                    <div id="profileDropdown" 
+                         style="display: none; position: absolute; right: 0; top: 40px; 
+                                background: white; padding: 10px; border-radius: 8px; 
+                                box-shadow: 0 2px 5px rgba(0,0,0,0.2); min-width: 120px;">
+                        <span id="currentUser" style="display: block; margin-bottom: 8px; color: #666;"></span>
+                        <button onclick="logout()" 
+                                style="background: #ff4444; color: white; border: none; 
+                                       padding: 8px 15px; border-radius: 5px; cursor: pointer; 
+                                       width: 100%;">
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="services-container">
+        <h2>Repair Services</h2>
+        <div class="service-grid" id="serviceGrid"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all services from localStorage
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            
+            // Filter for repair services only
+            const repairServices = services.filter(service => 
+                service.serviceType === 'repair' && service.isActive
+            );
+            
+            const serviceGrid = document.querySelector('.service-grid');
+            
+            if (!repairServices || repairServices.length === 0) {
+                serviceGrid.innerHTML = '<p class="no-services">No repair services available at the moment.</p>';
+                return;
+            }
+            
+            // Display the filtered services
+            serviceGrid.innerHTML = repairServices.map(service => `
+                <div class="service-card" onclick="showServiceDetails('${service.userId}')">
+                    <div class="buddy-profile">
+                        <img src="${service.profileImage || '/pics/default-avatar.png'}" 
+                             alt="${service.username}" 
+                             class="profile-image">
+                        <div class="profile-info">
+                            <h3>${service.username}</h3>
+                            <p class="service-title">${service.title}</p>
+                        </div>
+                    </div>
+                    <div class="service-details">
+                        <p class="description">${service.description}</p>
+                        <div class="service-categories">
+                            <span class="service-category">${service.category}</span>
+                        </div>
+                        <div class="service-meta">
+                            <span class="price">$${service.price}/hr</span>
+                            <div style="position: relative;">
+                                <button class="contact-btn" onclick="event.stopPropagation(); messageProvider('${service.userId}')">
+                                    Message Provider
+                                </button>
+                                <span class="notification-badge" 
+                                      data-provider-id="${service.userId}" 
+                                      style="display: none;">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        function messageProvider(providerId) {
+            event.stopPropagation();
+            
+            // Find the provider's name from the services
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            const provider = services.find(service => service.userId === providerId);
+            const providerName = provider ? provider.username : 'Repair Expert';
+            
+            const messagingModal = document.createElement('div');
+            messagingModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 2000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+            
+            messagingModal.innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin: 0;">Message ${providerName}</h3>
+                        <button onclick="closeMessageModal()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
+                    </div>
+                    <input type="text" id="senderName" placeholder="Your Name" 
+                           style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <textarea id="messageText" placeholder="Write your message to ${providerName}..." 
+                             style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px;"></textarea>
+                    <button onclick="sendMessage('${providerId}')" 
+                            style="background: #FF59F8; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">
+                        Send Message to ${providerName}
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(messagingModal);
+        }
+
+        function showDropdown() {
+            document.getElementById('profileDropdown').style.display = 'block';
+            document.getElementById('currentUser').textContent = 
+                localStorage.getItem('currentUser') || 'User';
+        }
+
+        function hideDropdown() {
+            setTimeout(() => {
+                if (!document.getElementById('profileDropdown').matches(':hover')) {
+                    document.getElementById('profileDropdown').style.display = 'none';
+                }
+            }, 100);
+        }
+
+        function logout() {
+            if(confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('userType');
+                window.location.href = '../index.html';
+            }
+        }
+
+        function closeMessageModal() {
+            const modal = document.querySelector('[style*="z-index: 2000"]');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function sendMessage(providerId) {
+            const senderName = document.getElementById('senderName').value.trim();
+            const messageText = document.getElementById('messageText').value.trim();
+            
+            if (!senderName || !messageText) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Create a message object
+            const message = {
+                id: Date.now(),
+                senderId: senderName,
+                recipientId: providerId,
+                text: messageText,
+                timestamp: new Date().toISOString(),
+                read: false,
+                isAnonymous: true
+            };
+            
+            // Get existing messages or initialize new array
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            messages.push(message);
+            localStorage.setItem('messages', JSON.stringify(messages));
+            
+            alert('Message sent successfully!');
+            closeMessageModal();
+        }
+
+        function showServiceDetails(serviceId) {
+            const modalContainer = document.createElement('div');
+            modalContainer.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 2000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+            
+            modalContainer.innerHTML = `
+                <div class="comments-modal" style="background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin: 0;">Comments</h3>
+                        <button onclick="closeCommentsModal()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
+                    </div>
+                    <div class="comment-form">
+                        <input type="text" id="commenterName_${serviceId}" placeholder="Your Name" 
+                               style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <textarea id="commentText_${serviceId}" placeholder="Write a comment..." 
+                                  style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 60px;"></textarea>
+                        <button onclick="postComment('${serviceId}')" 
+                                style="background: #FF59F8; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">
+                            Post Comment
+                        </button>
+                    </div>
+                    <div id="comments_${serviceId}" class="comments-section" style="margin-top: 20px;">
+                        ${renderComments(serviceId)}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modalContainer);
+        }
+
+        function closeCommentsModal() {
+            const modal = document.querySelector('[style*="z-index: 2000"]');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function renderComments(serviceId) {
+            const comments = JSON.parse(localStorage.getItem(`comments_${serviceId}`)) || [];
+            const currentUser = localStorage.getItem('currentUser');
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            const service = services.find(service => service.userId === serviceId);
+            
+            console.log('Debug Info:', {
+                currentUser,
+                serviceId,
+                service,
+                services
+            });
+            
+            const isCreator = service && service.username === currentUser;
+            
+            return comments.map(comment => `
+                <div class="comment" style="margin-bottom: 15px; padding: 10px; border-radius: 8px; background: #f8f8f8;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>${comment.name}</strong>
+                        <span style="color: #666;">${formatTime(comment.timestamp)}</span>
+                    </div>
+                    <p style="margin: 5px 0;">${comment.text}</p>
+                    ${comment.reply ? `
+                        <div style="margin-left: 20px; padding: 10px; background: #fff; border-left: 3px solid #FF59F8; border-radius: 4px;">
+                            <strong>Seller's Reply:</strong>
+                            <p style="margin: 5px 0;">${comment.reply}</p>
+                            <span style="color: #666; font-size: 0.9em;">${formatTime(comment.replyTimestamp)}</span>
+                        </div>
+                    ` : isCreator ? `
+                        <div style="margin-top: 10px;">
+                            <textarea id="replyText_${comment.id}" placeholder="Write a reply..." 
+                                      style="width: 100%; padding: 8px; margin-bottom: 5px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                            <button onclick="event.stopPropagation(); replyToComment('${serviceId}', '${comment.id}')"
+                                    style="background: #FF59F8; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                                Reply
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function postComment(serviceId) {
+            const nameInput = document.getElementById(`commenterName_${serviceId}`);
+            const textInput = document.getElementById(`commentText_${serviceId}`);
+            
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+            
+            if (!name || !text) {
+                alert('Please enter both name and comment');
+                return;
+            }
+            
+            const comments = JSON.parse(localStorage.getItem(`comments_${serviceId}`)) || [];
+            
+            comments.unshift({
+                id: Date.now().toString(),
+                name: name,
+                text: text,
+                timestamp: new Date().toISOString()
+            });
+            
+            localStorage.setItem(`comments_${serviceId}`, JSON.stringify(comments));
+            document.getElementById(`comments_${serviceId}`).innerHTML = renderComments(serviceId);
+            
+            nameInput.value = '';
+            textInput.value = '';
+        }
+
+        function replyToComment(serviceId, commentId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const replyText = document.getElementById(`replyText_${commentId}`).value.trim();
+            
+            if (!replyText) {
+                alert('Please enter a reply');
+                return;
+            }
+            
+            const comments = JSON.parse(localStorage.getItem(`comments_${serviceId}`)) || [];
+            const commentIndex = comments.findIndex(c => c.id === commentId);
+            
+            if (commentIndex !== -1) {
+                comments[commentIndex].reply = replyText;
+                comments[commentIndex].replyTimestamp = new Date().toISOString();
+                localStorage.setItem(`comments_${serviceId}`, JSON.stringify(comments));
+                
+                document.getElementById(`comments_${serviceId}`).innerHTML = renderComments(serviceId);
+            }
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return `${days}d ago`;
+        }
+    </script>
+</body>
+</html>

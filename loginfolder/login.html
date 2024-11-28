@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/png" href="../pics/logo.png" sizes="16x16">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="96x96">
+<link rel="apple-touch-icon" href="../pics/logo.png">
+    <title>Login - SkillSwap</title>
+    <style>
+        :root {
+            --gradient-start: #fce7ff;  /* Light pink */
+            --gradient-end: #e293f9;    /* Purple */
+            --text-color: #333333;      /* Dark gray for text */
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            padding-top: 60px;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-top: 80px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 0;
+            background: none;
+        }
+
+        .logo-icon::after {
+            display: none;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: 0.5px;
+        }
+
+        /* Update button styles to match the design */
+        button {
+            width: 100%;
+            padding: 12px;
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: #f8f8f8;
+            border-color: #ddd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        /* Password visibility toggle */
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+            z-index: 1;
+        }
+
+        .password-toggle:hover {
+            opacity: 0.8;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #eee;
+            border-radius: 50px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--gradient-end);
+        }
+
+        .bottom-links {
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bottom-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .bottom-links a:hover {
+            color: var(--gradient-end);
+            transform: translateX(-3px);
+        }
+
+        .go-back {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .go-back:hover {
+            transform: translateX(-3px);
+        }
+
+        .right-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .register-link {
+            color: var(--gradient-end) !important;
+            font-weight: 600;
+        }
+
+        .register-link:hover {
+            transform: translateY(-2px) !important;
+            text-decoration: underline;
+        }
+
+        .register {
+            color: var(--gradient-end) !important;
+            font-weight: 600;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-box input {
+            padding-right: 40px; /* Make space for the eye icon */
+        }
+
+        /* Simplified navbar styles for back button */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+        }
+
+        .go-back {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: fit-content;
+            transition: all 0.3s ease;
+        }
+
+        .go-back:hover {
+            color: var(--gradient-end);
+            transform: translateX(-5px);
+        }
+    </style>
+    <script src="login.js"></script>
+</head>
+<body>
+    <!-- Replace navbar with a simple back button -->
+    <nav class="navbar">
+        <a href="../index.html" class="go-back">
+            <span>←</span> Go Back
+        </a>
+    </nav>
+    <div class="login-container">
+        <div class="logo">
+            <img class="logo-icon" src="logo.png" alt="SkillSwap Logo">
+            <div class="logo-text">SKILLSWAP</div>
+        </div>
+        <h2>Login to SkillSwap</h2>
+        <form class="login-form" onsubmit="return handleLogin(event)">
+            <div class="input-box">
+                <input type="text" id="username" required>
+                <label>Username</label>
+            </div>
+            <div class="input-box password-container">
+                <input type="password" id="password" required>
+                <label>Password</label>
+                <span class="password-toggle" onclick="togglePassword()">👁️</span>
+            </div>
+            <button type="submit">Login</button>
+            <div id="loginMessage" style="color: red; text-align: center; margin-top: 10px;"></div>
+        </form>
+        <div class="bottom-links">
+            <a href="#" onclick="verifyRegistration()">Admin Access</a>
+            <a href="#" onclick="verifyAdmin()">Admin Access</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Check if credentials match
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                // Successful login
+                localStorage.setItem('currentUser', username);
+                window.location.href = 'dashboard.html'; // Replace with your dashboard page
+            } else {
+                document.getElementById('loginMessage').textContent = 'Invalid username or password. Please register first.';
+            }
+        }
+
+        function verifyAdmin() {
+            const passcode = prompt("Enter admin passcode:");
+            if (passcode === null) return; // User clicked Cancel
+
+            // You can change this passcode
+            const adminPasscode = "1234";
+            
+            if (passcode === adminPasscode) {
+                window.location.href = 'admin.html';
+            } else {
+                alert("Invalid passcode. Access denied.");
+            }
+        }
+
+        function verifyRegistration() {
+            const passcode = prompt("Enter admin passcode:");
+            if (passcode === null) return; // User clicked Cancel
+
+            // You can change this passcode
+            const registrationPasscode = "5678";
+            
+            if (passcode === registrationPasscode) {
+                window.location.href = 'register.html';
+            } else {
+                alert("Invalid passcode. Registration access denied.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/png" href="../pics/logo.png" sizes="16x16">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="96x96">
+<link rel="apple-touch-icon" href="../pics/logo.png">
+    <title>Register - SkillSwap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f5f5f5;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            width: 100px;
+            height: 100px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .input-box label {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+        .input-box input:focus + label,
+        .input-box input:valid + label {
+            top: -10px;
+            left: 5px;
+            font-size: 14px;
+            background: white;
+            padding: 0 5px;
+            color: #4CAF50;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .bottom-links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .bottom-links a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .bottom-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <img class="logo-icon" src="logo.png" alt="SkillSwap Logo">
+            <div class="logo-text">SKILLSWAP</div>
+        </div>
+        <h2>Register for SkillSwap</h2>
+        <form class="login-form" onsubmit="return handleRegistration(event)">
+            <div class="input-box">
+                <input type="text" id="username" required>
+                <label>Username</label>
+            </div>
+            <div class="input-box password-container">
+                <input type="password" id="password" required>
+                <label>Password</label>
+                <span class="password-toggle" onclick="togglePassword()">👁️</span>
+            </div>
+            <button type="submit">Register</button>
+            <div id="registerMessage" style="color: red; text-align: center; margin-top: 10px;"></div>
+        </form>
+        <div class="bottom-links">
+            <a href="login.html" class="go-back">
+                ← Back to Login
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Add this at the beginning of your script section
+        // Check if user came from login page with correct passcode
+        function checkAccess() {
+            const referrer = document.referrer;
+            if (!referrer.includes('login.html')) {
+                alert('Please access registration through the login page.');
+                window.location.href = 'login.html';
+            }
+        }
+        
+        // Call this when page loads
+        checkAccess();
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        }
+
+        function handleRegistration(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Get existing users from localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            // Check if username already exists
+            if (users.some(user => user.username === username)) {
+                document.getElementById('registerMessage').textContent = 'Username already exists. Please choose another.';
+                return;
+            }
+            
+            // Add new user
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Log all users to console
+            console.log('All registered users:', users);
+            
+            // Show success message and redirect
+            alert('Registration successful! Please login.');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html> 

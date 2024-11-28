@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/png" href="../pics/logo.png" sizes="16x16">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="96x96">
+<link rel="apple-touch-icon" href="../pics/logo.png">             
+    <title>SkillSwap Dashboard</title>
+    <style>
+        :root {
+            --gradient-start: #fce7ff;
+            --gradient-end: #e293f9;
+            --text-color: #333333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: #f0f2f5;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-form {
+            background: white;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .post-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            resize: none;
+        }
+
+        .post-button {
+            background: var(--gradient-end);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .posts-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .post {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+            margin-right: 10px;
+        }
+
+        .logout-btn {
+            background: #f0f2f5;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">SKILLSWAP</div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="post-form">
+        <textarea class="post-input" placeholder="What service would you like to offer?"></textarea>
+        <button class="post-button" onclick="createPost()">Post</button>
+    </div>
+
+    <div class="posts-container" id="posts">
+        <!-- Posts will be added here dynamically -->
+    </div>
+
+    <script>
+        // Check if user is logged in
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Create a new post
+        function createPost() {
+            const input = document.querySelector('.post-input');
+            const content = input.value.trim();
+            
+            if (content) {
+                const postsContainer = document.getElementById('posts');
+                const username = localStorage.getItem('currentUser');
+                
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar"></div>
+                        <div class="user-name">${username}</div>
+                    </div>
+                    <div class="post-content">${content}</div>
+                `;
+                
+                postsContainer.insertBefore(postElement, postsContainer.firstChild);
+                input.value = '';
+
+                // Store post in localStorage
+                const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+                posts.unshift({
+                    username,
+                    content,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('posts', JSON.stringify(posts));
+            }
+        }
+
+        // Load existing posts
+        function loadPosts() {
+            const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+            const postsContainer = document.getElementById('posts');
+            
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <div class="user-info">
+                        <div class="user-avatar"></div>
+                        <div class="user-name">${post.username}</div>
+                    </div>
+                    <div class="post-content">${post.content}</div>
+                `;
+                postsContainer.appendChild(postElement);
+            });
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize
+        checkAuth();
+        loadPosts();
+    </script>
+</body>
+</html> 

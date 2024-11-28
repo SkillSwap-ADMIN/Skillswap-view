@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../pics/logo.png" sizes="16x16">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="96x96">
+<link rel="apple-touch-icon" href="../pics/logo.png">
+    <title>Tutoring Services - SkillSwap</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #FFE5F6 0%, #FFC0EB 100%);
+        }
+
+        /* Navigation Bar Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo img {
+            width: 27px;
+            height: 27px;
+        }
+
+        .logo a {
+            font-size: 24px;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: black;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FF59F8;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #FF59F8;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Content Styles */
+        h1 {
+            padding: 20px;
+            margin: 0;
+        }
+
+        .no-services-message {
+            text-align: center;
+            color: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+        }
+
+        /* Add these new styles */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .buddy-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .profile-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-info h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .service-title {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .service-details {
+            text-align: left;
+        }
+
+        .description {
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+
+        .service-categories {
+            margin: 10px 0;
+        }
+
+        .service-category {
+            background: rgba(255, 89, 248, 0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+        }
+
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .contact-btn {
+            background: linear-gradient(135deg, #FFE5F6, #FF59F8);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-services {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            grid-column: 1 / -1;
+        }
+
+        /* Add to your existing styles */
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+            display: none;
+        }
+
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .profile-modal-content {
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .comments-section {
+            margin-top: 30px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 20px;
+        }
+
+        .comment {
+            padding: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .comment.reply {
+            background-color: rgba(238, 130, 238, 0.1);
+            border-left: 3px solid violet;
+            margin-left: 20px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .comment-btn {
+            background: #FF59F8;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/pics/logo.png" alt="SkillSwap Logo" width="27" height="27">
+            <a href="../../index.html" style="font-family: Arial, sans-serif; font-weight: bold; color: black; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);">SKILLSWAP</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Home</a></li>
+            <li><a href="../service.html">Services</a></li>
+            <li><a href="../../about.html">About</a></li>
+            <li><a href="../../contact.html">Contact</a></li>
+            <div class="user-profile" style="margin-left: 20px; position: relative;">
+                <img src="../pics/default-avatar.png" 
+                     alt="Profile" 
+                     style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;"
+                     onmouseover="showDropdown()" 
+                     onmouseout="hideDropdown()">
+                <div id="profileDropdown" 
+                     style="display: none; position: absolute; right: 0; top: 40px; 
+                            background: white; padding: 10px; border-radius: 8px; 
+                            box-shadow: 0 2px 5px rgba(0,0,0,0.2); min-width: 120px;">
+                    <span id="currentUser" style="display: block; margin-bottom: 8px; color: #666;"></span>
+                    <button onclick="logout()" 
+                            style="background: #ff4444; color: white; border: none; 
+                                   padding: 8px 15px; border-radius: 5px; cursor: pointer; 
+                                   width: 100%;">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </ul>
+    </nav>
+
+    <h1>Tutoring Services</h1>
+    
+    <!-- Replace the no-services-message div with this -->
+    <div class="service-grid" id="serviceGrid">
+        <!-- Services will be loaded here -->
+    </div>
+
+    <!-- Add the script section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            const tutorServices = services.filter(service => 
+                service.serviceType === 'tutor' && service.isActive
+            );
+            
+            const serviceGrid = document.querySelector('.service-grid');
+            
+            if (!tutorServices || tutorServices.length === 0) {
+                serviceGrid.innerHTML = '<p class="no-services">No tutoring services available at the moment.</p>';
+                return;
+            }
+            
+            // Modified service card creation
+            serviceGrid.innerHTML = tutorServices.map(service => `
+                <div class="service-card" onclick='showServiceDetails(${JSON.stringify(service).replace(/'/g, "&apos;")})'>
+                    <div class="buddy-profile">
+                        <img src="${service.profileImage || '../pics/default-avatar.png'}" 
+                             alt="${service.username}" 
+                             class="profile-image">
+                        <div class="profile-info">
+                            <h3>${service.username}</h3>
+                            <p class="service-title">${service.title}</p>
+                        </div>
+                    </div>
+                    <div class="service-details">
+                        <p class="description">${service.description}</p>
+                        <div class="service-categories">
+                            <span class="service-category">${service.category}</span>
+                        </div>
+                        <div class="service-meta">
+                            <span class="price">$${service.price}/hr</span>
+                            <div style="position: relative;">
+                                <button class="contact-btn" onclick="event.stopPropagation(); messageProvider('${service.userId}')">
+                                    Message Provider
+                                </button>
+                                <span class="notification-badge" 
+                                      data-provider-id="${service.userId}" 
+                                      style="display: none; position: absolute; top: -8px; right: -8px; 
+                                             background: red; color: white; border-radius: 50%; 
+                                             padding: 2px 6px; font-size: 12px;">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        function messageProvider(providerId) {
+            event.stopPropagation();
+            
+            // Find the provider's name from the services
+            const services = JSON.parse(localStorage.getItem('tutorServices')) || [];
+            const provider = services.find(service => service.userId === providerId);
+            const providerName = provider ? provider.username : 'Tutor';
+            
+            const messagingModal = document.createElement('div');
+            messagingModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 2000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+            
+            messagingModal.innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin: 0;">Message ${providerName}</h3>
+                        <button onclick="closeMessageModal()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
+                    </div>
+                    <input type="text" id="senderName" placeholder="Your Name" 
+                           style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <textarea id="messageText" placeholder="Write your message to ${providerName}..." 
+                             style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px;"></textarea>
+                    <button onclick="sendMessage('${providerId}')" 
+                            style="background: #FF59F8; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">
+                        Send Message to ${providerName}
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(messagingModal);
+        }
+
+        function closeMessageModal() {
+            const modal = document.querySelector('[style*="z-index: 2000"]');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function sendMessage(providerId) {
+            const senderName = document.getElementById('senderName').value.trim();
+            const messageText = document.getElementById('messageText').value.trim();
+            
+            if (!senderName || !messageText) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Create a message object using the actual inputted name
+            const message = {
+                id: Date.now(),
+                senderId: senderName, // Use the actual name instead of anonymous ID
+                recipientId: providerId,
+                text: messageText,
+                timestamp: new Date().toISOString(),
+                read: false,
+                isAnonymous: true
+            };
+            
+            // Get existing messages or initialize new array
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            messages.push(message);
+            localStorage.setItem('messages', JSON.stringify(messages));
+            
+            alert('Message sent successfully!');
+            closeMessageModal();
+        }
+
+        function updateNotificationCount(providerId) {
+            const notifications = JSON.parse(localStorage.getItem(`notifications_${providerId}`)) || [];
+            const unreadCount = notifications.filter(n => !n.isRead).length;
+            
+            // Update notification badge if it exists
+            const badge = document.querySelector(`[data-provider-id="${providerId}"] .notification-badge`);
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'block' : 'none';
+            }
+        }
+
+        function showDropdown() {
+            document.getElementById('profileDropdown').style.display = 'block';
+            document.getElementById('currentUser').textContent = 
+                localStorage.getItem('currentUser') || 'User';
+        }
+
+        function hideDropdown() {
+            setTimeout(() => {
+                if (!document.getElementById('profileDropdown').matches(':hover')) {
+                    document.getElementById('profileDropdown').style.display = 'none';
+                }
+            }, 100);
+        }
+
+        function logout() {
+            if(confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('userType');
+                window.location.href = '../index.html';
+            }
+        }
+
+        let currentServiceId = null;
+
+        // Initialize comments store
+        function initCommentsStore() {
+            if (!localStorage.getItem('serviceComments')) {
+                localStorage.setItem('serviceComments', JSON.stringify({}));
+            }
+        }
+
+        // Update the showServiceDetails function to handle comments
+        function showServiceDetails(service) {
+            const profileModal = document.getElementById('profileModal');
+            const profileDetails = document.getElementById('profileDetails');
+            const currentUser = localStorage.getItem('currentUser');
+            const isCreator = service.userId === currentUser;
+            
+            // Get existing comments
+            const comments = JSON.parse(localStorage.getItem('serviceComments') || '{}');
+            const serviceComments = comments[service.userId] || [];
+            
+            profileDetails.innerHTML = `
+                <div class="profile-header">
+                    <img src="${service.profileImage || '../pics/default-avatar.png'}" alt="${service.userId}" class="profile-avatar">
+                    <div class="profile-info-large">
+                        <h2>${service.title}</h2>
+                        <p class="profile-email">${service.userId}@skillswap.com</p>
+                    </div>
+                </div>
+                <div class="service-info">
+                    <h3>Service Details</h3>
+                    <p>${service.description}</p>
+                    <div class="service-meta">
+                        <span class="category">${service.category}</span>
+                        <span class="price">$${service.price}/hr</span>
+                    </div>
+                </div>
+                
+                <div class="comments-section">
+                    <h3>Comments</h3>
+                    ${isCreator ? `
+                        <div class="comment-form creator-reply">
+                            <input type="text" id="creatorName" value="${service.username}" readonly class="comment-input">
+                            <textarea id="replyText" placeholder="Reply as tutor..." class="comment-input" rows="2"></textarea>
+                            <button class="comment-btn" onclick="postReply('${service.userId}')">Reply</button>
+                        </div>
+                    ` : `
+                        <div class="comment-form">
+                            <input type="text" id="commenterName" placeholder="Your Name" class="comment-input">
+                            <textarea id="commentText" placeholder="Write a comment..." class="comment-input" rows="2"></textarea>
+                            <button class="comment-btn" onclick="postComment('${service.userId}')">Post</button>
+                        </div>
+                    `}
+                    <div class="comments-list">
+                        ${serviceComments.map(comment => `
+                            <div class="comment ${comment.isReply ? 'reply' : ''}">
+                                <div class="comment-header">
+                                    <strong>${comment.name}</strong>
+                                    <span class="comment-time">${formatTime(comment.timestamp)}</span>
+                                </div>
+                                <p>${comment.text}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            profileModal.style.display = 'block';
+        }
+
+        function postComment(serviceId) {
+            const name = document.getElementById('commenterName').value.trim();
+            const text = document.getElementById('commentText').value.trim();
+            
+            if (!name || !text) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const comments = JSON.parse(localStorage.getItem('serviceComments') || '{}');
+            if (!comments[serviceId]) {
+                comments[serviceId] = [];
+            }
+            
+            comments[serviceId].unshift({
+                name: name,
+                text: text,
+                timestamp: new Date().toISOString(),
+                isReply: false
+            });
+            
+            localStorage.setItem('serviceComments', JSON.stringify(comments));
+            
+            // Refresh the comments section
+            const service = JSON.parse(localStorage.getItem('services')).find(s => s.userId === serviceId);
+            showServiceDetails(service);
+            
+            // Clear the input fields
+            document.getElementById('commenterName').value = '';
+            document.getElementById('commentText').value = '';
+        }
+
+        function postReply(serviceId) {
+            const text = document.getElementById('replyText').value;
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            const service = services.find(s => s.userId === serviceId);
+            
+            if (!text) {
+                alert('Please enter a reply');
+                return;
+            }
+            
+            const comments = JSON.parse(localStorage.getItem('serviceComments') || '{}');
+            if (!comments[serviceId]) {
+                comments[serviceId] = [];
+            }
+            
+            comments[serviceId].unshift({
+                name: service.username + ' (Tutor)',
+                text: text,
+                timestamp: new Date().toISOString(),
+                isReply: true
+            });
+            
+            localStorage.setItem('serviceComments', JSON.stringify(comments));
+            
+            // Refresh the comments section
+            showServiceDetails(service);
+            
+            // Clear the reply field
+            document.getElementById('replyText').value = '';
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return `${days}d ago`;
+        }
+
+        function react(type) {
+            // Implement reaction logic here
+            console.log(`Reacted with ${type}`);
+        }
+
+        // Initialize comments store when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initCommentsStore();
+            // ... rest of your existing DOMContentLoaded code ...
+        });
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+    </script>
+
+    <!-- Add this modal HTML right before the closing body tag -->
+    <div id="serviceModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+         background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="position: relative; background: white; width: 90%; max-width: 600px; margin: 50px auto; 
+             padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <!-- Close button -->
+            <button onclick="closeModal()" 
+                    style="position: absolute; right: 10px; top: 10px; background: none; 
+                           border: none; font-size: 20px; cursor: pointer;">×</button>
+            
+            <!-- Service content -->
+            <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                <img id="modalProfileImg" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;">
+                <div>
+                    <h2 id="modalTitle" style="margin: 0;"></h2>
+                    <p id="modalEmail" style="margin: 5px 0; color: #666;"></p>
+                </div>
+            </div>
+
+            <div style="background: #FFE5F6; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                <h3 style="margin: 0;">Service Details</h3>
+                <p id="modalDescription" style="margin: 10px 0;"></p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span id="modalCategory" style="background: rgba(255,89,248,0.1); padding: 5px 10px; border-radius: 15px;"></span>
+                    <span id="modalPrice" style="font-weight: bold; color: #4CAF50;"></span>
+                </div>
+            </div>
+
+            <!-- Reactions section -->
+            <div style="margin: 20px 0;">
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="react('like')" style="padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;">
+                        👍 Like
+                    </button>
+                    <button onclick="react('dislike')" style="padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;">
+                        👎 Dislike
+                    </button>
+                    <button onclick="react('haha')" style="padding: 5px 10px; border: none; border-radius: 5px; cursor: pointer;">
+                        😄 Haha
+                    </button>
+                </div>
+            </div>
+
+            <!-- Comments section -->
+            <div style="margin-top: 20px;">
+                <h3>Comments</h3>
+                <div id="commentsSection" style="max-height: 200px; overflow-y: auto;"></div>
+                <div style="margin-top: 15px;">
+                    <input type="text" id="nameInput" placeholder="Your Name" 
+                           style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <textarea id="commentInput" placeholder="Write a comment..." 
+                           style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 60px;"></textarea>
+                    <button onclick="postComment()" 
+                            style="background: #FF59F8; color: white; border: none; padding: 8px 15px; 
+                                   border-radius: 5px; cursor: pointer;">
+                        Post
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this modal HTML before the closing body tag -->
+    <div id="profileModal" class="profile-modal">
+        <div class="profile-modal-content">
+            <span class="close-modal" onclick="closeProfileModal()">&times;</span>
+            <div class="profile-details" id="profileDetails">
+                <!-- Profile content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>

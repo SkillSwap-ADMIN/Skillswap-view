@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add favicon links -->
+    <link rel="icon" type="image/png" href="pics/logo.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="pics/logo.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="pics/logo.png" sizes="96x96">
+    <link rel="logo-icon" href="pics/logo.png">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap - Services</title>
+    <style>
+        /* Container adjustments */
+        .service-container {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem 2rem;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 900px;
+            margin: 2rem auto;
+            box-sizing: border-box;
+        }
+
+        /* Service grid layout */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            width: 100%;    /* Full width of container */
+            margin: 0 auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Service card styles */
+        .service-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.3s ease;
+            height: 100%;  /* Full height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .service-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            margin: 0.5rem 0;
+            color: black;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .service-card p {
+            color: #333;
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Remove all dark mode related styles */
+        body {
+            background: linear-gradient(to top, violet, white);
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Header and Logo styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            vertical-align: middle;
+        }
+
+        h1 {
+            color: #1a1a1a;  /* Darker base color */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+            text-shadow: 
+                1px 1px 2px rgba(0, 0, 0, 0.3),
+                0 0 10px rgba(238, 130, 238, 0.2),
+                0 0 20px rgba(238, 130, 238, 0.1);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    1px 1px 2px rgba(0, 0, 0, 0.3),
+                    0 0 10px rgba(238, 130, 238, 0.2),
+                    0 0 20px rgba(238, 130, 238, 0.1);
+            }
+            to {
+                text-shadow: 
+                    1px 1px 3px rgba(0, 0, 0, 0.4),
+                    0 0 12px rgba(238, 130, 238, 0.3),
+                    0 0 22px rgba(238, 130, 238, 0.2);
+            }
+        }
+
+        /* Service header text */
+        .service-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .service-header p {
+            color: #333;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .service-container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr;  /* Single column on mobile */
+                gap: 1rem;
+            }
+
+            .service-card {
+                padding: 1rem;
+            }
+
+            .header {
+                gap: 10px;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Navigation styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 30px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo-img {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+
+        .nav-logo span {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #1a1a1a;  /* Match the heading color */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: black;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(238, 130, 238, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Adjust service container to account for navbar */
+        .service-container {
+            margin-top: 100px;  /* Added margin to prevent overlap with fixed navbar */
+        }
+
+        /* Remove the back button since we have navigation now */
+        .back-button {
+            display: none;
+        }
+
+        /* Responsive navigation */
+        @media (max-width: 768px) {
+            .nav-content {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-link {
+                font-size: 0.9rem;
+            }
+
+            .nav-logo span {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-logo span {
+                display: none;  /* Hide logo text on very small screens */
+            }
+        }
+
+        .services-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-gap: 20px;
+        }
+
+        .service-card {
+            background: var(--glass-bg-light);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-provider {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .provider-picture {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .service-details {
+            margin-bottom: 20px;
+        }
+
+        .service-meta {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .portfolio-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .portfolio-item {
+            position: relative;
+        }
+
+        .portfolio-item img,
+        .portfolio-item video {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .contact-btn {
+            background: rgba(238, 130, 238, 0.6);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: rgba(238, 130, 238, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">
+                <img src="pics/logo.png" alt="SkillSwap Logo" class="nav-logo-img">
+                <span>SKILLSWAP</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="service-container">
+        <div class="header">
+            <img src="pics/logo.png" alt="SkillSwap Logo" class="logo">
+            <h1>SKILLSWAP</h1>
+        </div>
+
+        <div class="service-header">
+            <p>Choose from our wide range of service providers</p>
+        </div>
+        
+        <div class="service-grid">
+            <a href="insideservice/videoeditor.html" class="service-card">
+                <img src="pics/video editor.png" alt="Video Editing">
+                <h3>Video Editor</h3>
+                <p>Professional video editing and post-production services</p>
+            </a>
+            
+            <a href="insideservice/foodservice.html" class="service-card">
+                <img src="pics/cutlery.png" alt="Food Services">
+                <h3>Food Services</h3>
+                <p>Catering, meal prep, and culinary expertise</p>
+            </a>
+            
+            <a href="insideservice/tutor.html" class="service-card">
+                <img src="pics/tutor.png" alt="Tutoring">
+                <h3>Tutor</h3>
+                <p>Expert tutoring in various subjects and skills</p>
+            </a>
+            
+            <a href="insideservice/repair.html" class="service-card">
+                <img src="pics/rapair.png" alt="Repair">
+                <h3>Repair</h3>
+                <p>Fix and maintenance for electronics and appliances</p>
+            </a>
+            
+            <a href="insideservice/rentabuddy.html" class="service-card">
+                <img src="pics/rentabuddy.png" alt="Rent a Buddy">
+                <h3>Rent a Buddy</h3>
+                <p>Companionship for events, activities, and outings</p>
+            </a>
+            
+            <a href="insideservice/graphicdesign.html" class="service-card">
+                <img src="pics/pen-tool.png" alt="Graphic Design">
+                <h3>Graphic Design</h3>
+                <p>Creative design solutions for all your needs</p>
+            </a>
+            
+            <a href="insideservice/sellingstuff.html" class="service-card">
+                <img src="pics/cross-selling.png" alt="Selling Stuff">
+                <h3>Selling Stuff</h3>
+                <p>Buy and sell various items in our marketplace</p>
+            </a>
+            
+            <a href="insideservice/cleaningservice.html" class="service-card">
+                <img src="pics/cleaning-service.png" alt="Cleaning">
+                <h3>Cleaning Services</h3>
+                <p>Professional cleaning for homes and offices</p>
+            </a>
+
+            <div class="service-card">
+                <img src="more-icon.png" alt="More Services">
+                <h3>More</h3>
+                <p>Discover additional services and opportunities</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function displayServices() {
+        const servicesContainer = document.getElementById('servicesContainer');
+        const services = JSON.parse(localStorage.getItem('services')) || [];
+        
+        servicesContainer.innerHTML = services.map(service => `
+            <div class="service-card">
+                <div class="service-provider">
+                    <img src="${service.profilePicture}" alt="${service.providerName}" class="provider-picture">
+                    <h3>${service.providerName}</h3>
+                </div>
+                <div class="service-details">
+                    <h2>${service.serviceTitle}</h2>
+                    <p>${service.serviceDescription}</p>
+                    <div class="service-meta">
+                        <span class="price">$${service.servicePrice}</span>
+                        <span class="delivery">Delivery: ${service.deliveryTime} days</span>
+                        <span class="category">${service.serviceCategory}</span>
+                    </div>
+                </div>
+                <div class="portfolio-preview">
+                    ${service.portfolioMedia.map(media => `
+                        <div class="portfolio-item">
+                            ${media.type === 'video' ? 
+                                `<video controls>
+                                    <source src="${media.url}" type="video/mp4">
+                                </video>` :
+                                `<img src="${media.url}" alt="${media.title}">`
+                            }
+                            <div class="portfolio-item-title">${media.title}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                <button onclick="contactProvider('${service.id}')" class="contact-btn">
+                    Contact Provider
+                </button>
+            </div>
+        `).join('');
+    }
+
+    function contactProvider(serviceId) {
+        // Implement your contact functionality here
+        alert('Contact functionality will be implemented here');
+    }
+
+    // Call displayServices when the page loads
+    document.addEventListener('DOMContentLoaded', displayServices);
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/png" href="pics/logo.png" sizes="16x16">
+<link rel="icon" type="image/png" href="pics/logo.png" sizes="32x32">
+<link rel="icon" type="image/png" href="pics/logo.png" sizes="96x96">
+<link rel="apple-touch-icon" href="pics/logo.png">
+    <title>Register - SkillSwap</title>
+</head>
+<body>
+    <h2>Register</h2>
+    <form id="registerForm">
+        <div>
+            <label>Email:</label>
+            <input type="email" id="email" required>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" id="password" required>
+        </div>
+        <div>
+            <label>Name:</label>
+            <input type="text" id="name" required>
+        </div>
+        <div>
+            <label>Role:</label>
+            <input type="text" id="role" required>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const response = await fetch('http://localhost/skillswap/loginfolder/register_handler.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: document.getElementById('email').value,
+                    password: document.getElementById('password').value,
+                    name: document.getElementById('name').value,
+                    role: document.getElementById('role').value
+                })
+            });
+
+            const data = await response.json();
+            alert(data.message);
+        });
+    </script>
+</body>
+</html> 

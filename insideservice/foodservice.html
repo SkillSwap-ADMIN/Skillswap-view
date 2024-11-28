@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../pics/logo.png" sizes="16x16">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../pics/logo.png" sizes="96x96">
+<link rel="apple-touch-icon" href="../pics/logo.png">
+    <title>Food Services - SkillSwap</title>
+    <style>
+        :root {
+            --bg-gradient-light: linear-gradient(to top, violet, white);
+            --text-color-light: rgb(75, 75, 75);
+            --glass-bg-light: rgba(255, 255, 255, 0.9);
+        }
+
+        body {
+            background: var(--bg-gradient-light);
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        .nav-container {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color-light);
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: violet;
+        }
+
+        /* User Profile Styles */
+        .user-profile-nav {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px;
+            display: none;
+            min-width: 150px;
+        }
+
+        .user-profile-nav:hover .user-dropdown {
+            display: block;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 8px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #cc0000;
+        }
+
+        /* Service Card Styles */
+        .services-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 20px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .service-info h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .service-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .service-price {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .contact-btn {
+            background: violet;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background: #d659d6;
+        }
+
+        /* Add just these styles for the profile section */
+        .nav-right {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-section {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 10px;
+            min-width: 150px;
+        }
+
+        .profile-section:hover .dropdown-menu {
+            display: block;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 8px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .logout-btn:hover {
+            background: #cc0000;
+        }
+
+        .username {
+            display: block;
+            padding: 5px;
+            color: #666;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- The header will be inserted by header.js -->
+    
+    <div class="services-container">
+        <h2>Food Services</h2>
+        <div id="foodServices"></div>
+    </div>
+
+    <!-- Add header.js first -->
+    <script src="../components/header.js"></script>
+
+    <!-- Then add the page-specific script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all services from localStorage
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            
+            // Filter for food services only
+            const foodServices = services.filter(service => 
+                service.serviceType === 'foodService' && service.isActive
+            );
+            
+            const servicesContainer = document.getElementById('foodServices');
+            
+            if (!foodServices || foodServices.length === 0) {
+                servicesContainer.innerHTML = '<p style="text-align: center; color: var(--text-color-light);">No food services available yet.</p>';
+                return;
+            }
+            
+            // Display the filtered services
+            servicesContainer.innerHTML = foodServices.map(service => `
+                <div class="service-card" onclick="showServiceDetails('${service.userId}')">
+                    <div class="service-header">
+                        <img src="${service.profileImage || '../pics/default-avatar.png'}" 
+                             alt="Provider Profile" 
+                             class="service-icon"
+                             onerror="this.src='../pics/default-avatar.png'">
+                        <div class="service-info">
+                            <h3>${service.title || 'Food Service'}</h3>
+                            <p>${service.username}</p>
+                            <p>${service.email || service.username + '@skillswap.com'}</p>
+                        </div>
+                    </div>
+                    <p>${service.description || 'No description available'}</p>
+                    <p class="service-price">$${service.price}/hr</p>
+                    <div style="position: relative;">
+                        <button class="contact-btn" onclick="event.stopPropagation(); messageProvider('${service.userId}')">
+                            Message Provider
+                        </button>
+                        <span class="notification-badge" 
+                              data-provider-id="${service.userId}" 
+                              style="display: none;">
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        function messageProvider(providerId) {
+            event.stopPropagation(); // Prevent modal from opening
+            
+            // Create and show messaging modal
+            const messagingModal = document.createElement('div');
+            messagingModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 2000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+            
+            messagingModal.innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin: 0;">Message Provider</h3>
+                        <button onclick="closeMessageModal()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
+                    </div>
+                    <input type="text" id="senderName" placeholder="Your Name" 
+                           style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                    <textarea id="messageText" placeholder="Write your message..." 
+                             style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px;"></textarea>
+                    <button onclick="sendMessage('${providerId}')" 
+                            style="background: #FF59F8; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">
+                        Send Message
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(messagingModal);
+        }
+
+        // Add these supporting functions
+        function closeMessageModal() {
+            const modal = document.querySelector('[style*="z-index: 2000"]');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function sendMessage(providerId) {
+            const senderName = document.getElementById('senderName').value.trim();
+            const messageText = document.getElementById('messageText').value.trim();
+            
+            if (!senderName || !messageText) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Create a message object
+            const message = {
+                id: Date.now(),
+                senderId: senderName,
+                recipientId: providerId,
+                text: messageText,
+                timestamp: new Date().toISOString(),
+                read: false,
+                isAnonymous: true
+            };
+            
+            // Get existing messages or initialize new array
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            messages.push(message);
+            localStorage.setItem('messages', JSON.stringify(messages));
+            
+            alert('Message sent successfully!');
+            closeMessageModal();
+        }
+
+        // Add notification badge update function
+        function updateNotificationCount(providerId) {
+            const notifications = JSON.parse(localStorage.getItem(`notifications_${providerId}`)) || [];
+            const unreadCount = notifications.filter(n => !n.isRead).length;
+            
+            const badge = document.querySelector(`[data-provider-id="${providerId}"] .notification-badge`);
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'block' : 'none';
+            }
+        }
+
+        // Update username
+        document.getElementById('currentUsername').textContent = 
+            localStorage.getItem('currentUser') || 'User';
+
+        // Logout function
+        function logout() {
+            if(confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+
+        function showServiceDetails(serviceId) {
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            const service = services.find(s => s.userId === serviceId);
+            const providerName = service ? service.username : 'Provider';
+            
+            const detailsModal = document.createElement('div');
+            detailsModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1999;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+            
+            detailsModal.innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin: 0;">Comments for ${providerName}</h3>
+                        <button onclick="closeDetailsModal()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
+                    </div>
+                    <div class="comment-form">
+                        <input type="text" id="commenterName_${serviceId}" placeholder="Your Name" 
+                               style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        <textarea id="commentText_${serviceId}" placeholder="Write a comment..." 
+                                  style="width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 60px;"></textarea>
+                        <button onclick="postComment('${serviceId}')" 
+                                style="background: #FF59F8; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; width: 100%;">
+                            Post Comment
+                        </button>
+                    </div>
+                    <div id="comments_${serviceId}" class="comments-section" style="margin-top: 20px;">
+                        ${renderComments(serviceId)}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(detailsModal);
+        }
+
+        function closeDetailsModal() {
+            const modal = document.querySelector('[style*="z-index: 1999"]');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function renderComments(serviceId) {
+            const comments = JSON.parse(localStorage.getItem(`comments_${serviceId}`)) || [];
+            const currentUser = localStorage.getItem('currentUser');
+            const services = JSON.parse(localStorage.getItem('services')) || [];
+            const service = services.find(service => service.userId === serviceId);
+            const isCreator = service && service.username === currentUser;
+            
+            if (comments.length === 0) {
+                return '<p style="text-align: center; color: #666;">No comments yet. Be the first to comment!</p>';
+            }
+            
+            return comments.map(comment => `
+                <div class="comment" style="margin-bottom: 15px; padding: 10px; border-radius: 8px; background: #f8f8f8;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <strong>${comment.name}</strong>
+                        <span style="color: #666;">${formatTime(comment.timestamp)}</span>
+                    </div>
+                    <p style="margin: 5px 0;">${comment.text}</p>
+                    ${comment.reply ? `
+                        <div style="margin-left: 20px; padding: 10px; background: #fff; border-left: 3px solid #FF59F8; border-radius: 4px;">
+                            <strong>Provider's Reply:</strong>
+                            <p style="margin: 5px 0;">${comment.reply}</p>
+                            <span style="color: #666; font-size: 0.9em;">${formatTime(comment.replyTimestamp)}</span>
+                        </div>
+                    ` : isCreator ? `
+                        <div style="margin-top: 10px;">
+                            <textarea id="replyText_${comment.id}" placeholder="Write a reply..." 
+                                      style="width: 100%; padding: 8px; margin-bottom: 5px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                            <button onclick="replyToComment('${serviceId}', '${comment.id}')"
+                                    style="background: #FF59F8; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                                Reply
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function postComment(serviceId) {
+            const nameInput = document.getElementById(`commenterName_${serviceId}`);
+            const textInput = document.getElementById(`commentText_${serviceId}`);
+            
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+            
+            if (!name || !text) {
+                alert('Please enter both name and comment');
+                return;
+            }
+            
+            const comments = JSON.parse(localStorage.getItem(`comments_${serviceId}`)) || [];
+            comments.unshift({
+                id: Date.now().toString(),
+                name: name,
+                text: text,
+                timestamp: new Date().toISOString()
+            });
+            
+            localStorage.setItem(`comments_${serviceId}`, JSON.stringify(comments));
+            document.getElementById(`comments_${serviceId}`).innerHTML = renderComments(serviceId);
+            
+            nameInput.value = '';
+            textInput.value = '';
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            return `${days}d ago`;
+        }
+    </script>
+
+    <!-- Just add this small section to your existing header -->
+    <div style="position: absolute; right: 20px; top: 20px; display: flex; align-items: center;">
+        <div class="user-profile" style="position: relative;">
+            <img src="../pics/default-avatar.png" alt="Profile" 
+                 style="width: 32px; height: 32px; border-radius: 50%; cursor: pointer;">
+            <div style="display: none; position: absolute; right: 0; top: 40px; background: white; 
+                        padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);" 
+                 class="dropdown">
+                <span id="username" style="display: block; margin-bottom: 5px;"></span>
+                <button onclick="logout()" 
+                        style="background: #ff4444; color: white; border: none; padding: 5px 10px; 
+                               border-radius: 5px; cursor: pointer;">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this small script at the end of your body tag -->
+    <script>
+        const profile = document.querySelector('.user-profile');
+        const dropdown = document.querySelector('.dropdown');
+        
+        profile.addEventListener('mouseover', () => dropdown.style.display = 'block');
+        profile.addEventListener('mouseout', () => dropdown.style.display = 'none');
+        
+        document.getElementById('username').textContent = localStorage.getItem('currentUser') || 'User';
+        
+        function logout() {
+            if(confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('currentUser');
+                window.location.href = '../index.html';
+            }
+        }
+    </script>
+</body>
+</html>
